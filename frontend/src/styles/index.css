@@ -3,20 +3,26 @@
 @tailwind utilities;
 
 @layer base {
+
   html,
   body,
+
   #root {
     @apply h-full;
   }
+
   h1 {
     @apply text-2xl;
   }
+
   h2 {
     @apply text-xl;
   }
+
   h3 {
     @apply text-lg;
   }
+
   a {
     @apply text-blue-600 underline;
   }
@@ -24,29 +30,47 @@
 
 @layer components {
   .btn {
-    @apply p-3 bg-blue-500 rounded-md focus:outline-none text-white;
-    @apply hover:bg-blue-700 transition-all;
+    @apply p-3 bg-carnared rounded-md focus:outline-none text-white;
+    @apply hover:bg-carnared transition-all;
     @apply focus:ring disabled:opacity-50;
   }
+
   .btn.danger {
-    @apply bg-red-500 hover:bg-red-700;
+    @apply bg-red-500 hover:bg-carnared;
   }
+
   .input {
     @apply rounded-md border-gray-300 transition-colors disabled:opacity-50;
   }
+
   .card {
     @apply p-5 rounded-md bg-white border;
   }
+
   .table-container {
     @apply border rounded-lg mt-5 shadow overflow-x-auto;
   }
+
   .table-filter {
     @apply flex flex-col lg:flex-row gap-5 rounded-lg p-3 shadow overflow-x-auto border;
   }
+
   .sidebar {
     @apply fixed h-full w-72 p-5 shadow flex flex-col transform -translate-x-72 bg-white lg:translate-x-0 transition-transform;
+    background-image: url('../components/layout/assets/sidemenu-bg.jpg');
+    @apply bg-cover bg-center bg-no-repeat;
   }
+
   .sidebar.show {
     @apply translate-x-0 !important;
+  }
+
+  .sidebaritem {
+    background-color: #c1292e;
+  }
+
+  .urbanlogo {
+    background-image: url('../components/layout/assets/urbano-logo-white.png');
+    @apply bg-cover bg-center bg-no-repeat;
   }
 }
