@@ -23,9 +23,7 @@ export default function Sidebar({ className }: SidebarProps) {
 
   return (
     <div className={'sidebar ' + className}>
-      <Link to="/" className="no-underline text-black">
-        <img src="./assets/urbano-logo-white.png" className="h-8 w-8" />
-      </Link>
+      <Link to="/" className="no-underline text-black urbanlogo"></Link>
       <nav className="mt-5 flex flex-col gap-3 flex-grow">
         <SidebarItem to="/">
           <Home /> Dashboard

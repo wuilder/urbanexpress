@@ -7,6 +7,7 @@ import useAuth from '../../hooks/useAuth';
 import Course from '../../models/course/Course';
 import UpdateCourseRequest from '../../models/course/UpdateCourseRequest';
 import courseService from '../../services/CourseService';
+import enrollService from '../../services/EnrollService';
 import Modal from '../shared/Modal';
 import Table from '../shared/Table';
 import TableItem from '../shared/TableItem';
@@ -55,6 +56,16 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
     }
   };
 
+  const enrollCourse = async (userId, courseId) => {
+    try {
+      await enrollService.enrollCourse(userId, courseId);
+      reset();
+      setError(null);
+    } catch (error) {
+      setError(error.response);
+    }
+  };
+
   return (
     <>
       <div className="table-container">
@@ -70,16 +81,27 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
                   <TableItem>
                     {new Date(dateCreated).toLocaleDateString()}
                   </TableItem>
+                  <TableItem>
+                    {['user'].includes(authenticatedUser.role) ? (
+                      <button
+                        className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
+                        onClick={() => {
+                          setSelectedCourseId(id);
+                          enrollCourse(authenticatedUser.id, id);
+                        }}
+                      >
+                        Inscribirse
+                      </button>
+                    ) : null}
+                  </TableItem>
                   <TableItem className="text-right">
                     {['admin', 'editor'].includes(authenticatedUser.role) ? (
                       <button
                         className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
                         onClick={() => {
                           setSelectedCourseId(id);
-
                           setValue('name', name);
                           setValue('description', description);
-
                           setUpdateShow(true);
                         }}
                       >
