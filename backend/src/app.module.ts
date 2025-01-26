@@ -7,12 +7,14 @@ import { ContentModule } from './content/content.module';
 import { CourseModule } from './course/course.module';
 import { StatsModule } from './stats/stats.module';
 import { UserModule } from './user/user.module';
+import { UserCourseModule } from './userCourse/userCourse.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(),
     UserModule,
+    UserCourseModule,
     AuthModule,
     CourseModule,
     ContentModule,
@@ -21,4 +23,4 @@ import { UserModule } from './user/user.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

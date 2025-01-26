@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 
 import { Content } from '../content/content.entity';
+import { UserCourse } from '../userCourse/userCourse.entity';
 
 @Entity()
 export class Course extends BaseEntity {
@@ -24,4 +25,7 @@ export class Course extends BaseEntity {
 
   @OneToMany(() => Content, (content) => content.course)
   contents: Content[];
+
+  @OneToMany(() => UserCourse, (userCourse) => userCourse.course)
+  users: UserCourse[];
 }
