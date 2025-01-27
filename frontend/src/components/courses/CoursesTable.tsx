@@ -56,9 +56,9 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
     }
   };
 
-  const enrollCourse = async (userId: string) => {
+  const enrollCourse = async (userId: string, courseId: string) => {
     try {
-      await enrollService.enrollCourse(userId, selectedCourseId);
+      await enrollService.enrollCourse(userId, courseId);
       reset();
       setError(null);
     } catch (error) {
@@ -87,7 +87,7 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
                       className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
                       onClick={() => {
                         setSelectedCourseId(id);
-                        enrollCourse(authenticatedUser.id);
+                        enrollCourse(authenticatedUser.id, id);
                       }}
                     >
                       Enroll

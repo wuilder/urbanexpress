@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import useAuth from '../../hooks/useAuth';
 import MyCourse from '../../models/course/myCourses';
-import UpdateCourseRequest from '../../models/course/UpdateCourseRequest';
 import enrollService from '../../services/EnrollService';
 import Table from '../shared/Table';
 import TableItem from '../shared/TableItem';
@@ -12,7 +10,7 @@ import TableItem from '../shared/TableItem';
 interface UsersCoursesTableProps {
   data: MyCourse[];
   isLoading: boolean;
-  refetch: () => void;
+  //refetch: () => void;
 }
 
 export default function MyCoursesTable({ data, isLoading }: UsersCoursesTableProps) {
@@ -20,18 +18,13 @@ export default function MyCoursesTable({ data, isLoading }: UsersCoursesTablePro
   const [selectedCourseId, setSelectedCourseId] = useState<string>();
   const [error, setError] = useState<string>();
 
-  const {
-    formState: { isSubmitting },
-    reset,
-  } = useForm<UpdateCourseRequest>();
 
-  const unEnrollCourse = async (userId: string) => {
+  const unEnrollCourse = async (userId: string, courseId: string) => {
     try {
-      await enrollService.unenrollCourse(userId, selectedCourseId);
-      reset();
+      await enrollService.unenrollCourse(userId, courseId);
       setError(null);
     } catch (error) {
-      setError(error.response);
+      setError(error.response.data.message);
     }
   };
 
@@ -44,7 +37,7 @@ export default function MyCoursesTable({ data, isLoading }: UsersCoursesTablePro
             : data.map(({ id, dateJoined, course }) => (
               <tr key={id}>
                 <TableItem>
-                  <Link to={`/courses/${id}`}>{course.name}</Link>
+                  <Link to={`/courses/${course.id}`}>{course.name}</Link>
                 </TableItem>
                 <TableItem>
                   {new Date(dateJoined).toLocaleDateString()}
@@ -55,7 +48,7 @@ export default function MyCoursesTable({ data, isLoading }: UsersCoursesTablePro
                       className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
                       onClick={() => {
                         setSelectedCourseId(id);
-                        unEnrollCourse(authenticatedUser.id);
+                        unEnrollCourse(authenticatedUser.id, course.id);
                       }}
                     >
                       Unenroll

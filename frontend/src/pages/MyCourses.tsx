@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
 
 import MyCoursesTable from '../components/mycourses/MyCoursesTable';
 import Layout from '../components/layout';
 import useAuth from '../hooks/useAuth';
-import CreateCourseRequest from '../models/course/CreateCourseRequest';
 import enrollService from '../services/EnrollService';
 
 export default function MyCourses() {
@@ -13,19 +11,14 @@ export default function MyCourses() {
   const [description, setDescription] = useState('');
 
   const { authenticatedUser } = useAuth();
-  const { data, isLoading, refetch } = useQuery(
+  const { data, isLoading } = useQuery(
     ['userCourses', authenticatedUser?.id],
     () =>
       enrollService.getUserCourses(authenticatedUser?.id),
     {
-      refetchInterval: false,
+      refetchInterval: 1000,
     },
   );
-
-  const {
-    formState: { isSubmitting },
-  } = useForm<CreateCourseRequest>();
-
 
   return (
     <Layout>
@@ -50,7 +43,7 @@ export default function MyCourses() {
         </div>
       </div>
 
-      <MyCoursesTable data={data} isLoading={isLoading} refetch={refetch} />
+      <MyCoursesTable data={data} isLoading={isLoading} />
     </Layout>
   );
 }
