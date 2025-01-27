@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { AlertTriangle, Loader, X } from 'react-feather';
+import { useState, useEffect } from 'react';
+import { AlertTriangle, Loader, X, CheckCircle } from 'react-feather';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -24,6 +24,7 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
   const [selectedCourseId, setSelectedCourseId] = useState<string>();
   const [error, setError] = useState<string>();
   const [updateShow, setUpdateShow] = useState<boolean>(false);
+  const [successEnrolled, SetSuccessEnrolled] = useState<string>()
 
   const {
     register,
@@ -61,10 +62,26 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
       await enrollService.enrollCourse(userId, courseId);
       reset();
       setError(null);
+      SetSuccessEnrolled('Enrolled was successful.')
+      setTimeout(() => SetSuccessEnrolled(null), 3000)
     } catch (error) {
-      setError(error.response.data.message);
+      if (error.response.status === 409) {
+        setError(error.response.data.message);
+        setTimeout(() => {
+          setError(null)
+        }, 3000)
+      } else {
+        setError(error.response.data.message);
+      }
     }
   };
+
+  useEffect(() => {
+    // Reset error state when modal is closed
+    if (!deleteShow && !updateShow) {
+      setError(null);
+    }
+  }, [deleteShow, updateShow]);
 
   return (
     <>
@@ -123,6 +140,21 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
               </tr>
             ))}
         </Table>
+        {error && (
+          <div className="mb4 bg-red-100 border border-red-500 text-red-600 rounded p-3">
+            <p className="text-sm font-medium">
+              {error}
+            </p>
+          </div>
+        )}
+        {successEnrolled && (
+          <div className="mb4 bg-green-100 border border-green-500 text-green-600 rounded p-3">
+            <CheckCircle size={20} className="mr-2" />
+            <p className="text-sm font-medium">
+              {successEnrolled}
+            </p>
+          </div>
+        )}
         {!isLoading && data.length < 1 ? (
           <div className="text-center my-5 text-gray-500">
             <h1>Empty</h1>

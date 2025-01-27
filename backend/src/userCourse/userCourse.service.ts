@@ -33,10 +33,12 @@ export class UserCourseService {
   }
 
   async findAllUserCourses(userId: string) {
-    return this.userCourseRepository.find({
-      where: { userId },
-      relations: ['course'],
-    });
+    return this.userCourseRepository
+      .createQueryBuilder('userCourse')
+      .leftJoinAndSelect('userCourse.course', 'course')
+      .where('userCourse.userId = :userId', { userId })
+      .orderBy('course.name', 'ASC')
+      .getMany();
   }
 
   async delete(unenrollUserCourseDto: UnenrollUserCourseDto): Promise<any> {
