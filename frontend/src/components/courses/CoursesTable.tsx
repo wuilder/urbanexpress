@@ -24,7 +24,7 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
   const [selectedCourseId, setSelectedCourseId] = useState<string>();
   const [error, setError] = useState<string>();
   const [updateShow, setUpdateShow] = useState<boolean>(false);
-  const [successEnrolled, SetSuccessEnrolled] = useState<string>()
+  const [successEnrolled, SetSuccessEnrolled] = useState<string>();
 
   const {
     register,
@@ -62,14 +62,14 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
       await enrollService.enrollCourse(userId, courseId);
       reset();
       setError(null);
-      SetSuccessEnrolled('Enrolled was successful.')
-      setTimeout(() => SetSuccessEnrolled(null), 3000)
+      SetSuccessEnrolled('Enrolled was successful.');
+      setTimeout(() => SetSuccessEnrolled(null), 3000);
     } catch (error) {
       if (error.response.status === 409) {
         setError(error.response.data.message);
         setTimeout(() => {
-          setError(null)
-        }, 3000)
+          setError(null);
+        }, 3000);
       } else {
         setError(error.response.data.message);
       }
@@ -90,69 +90,65 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
           {isLoading
             ? null
             : data.map(({ id, name, description, dateCreated }) => (
-              <tr key={id}>
-                <TableItem>
-                  <Link to={`/courses/${id}`}>{name}</Link>
-                </TableItem>
-                <TableItem>{description}</TableItem>
-                <TableItem>
-                  {new Date(dateCreated).toLocaleDateString()}
-                </TableItem>
-                <TableItem>
-                  {['user'].includes(authenticatedUser.role) ? (
-                    <button
-                      className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
-                      onClick={() => {
-                        setSelectedCourseId(id);
-                        enrollCourse(authenticatedUser.id, id);
-                      }}
-                    >
-                      Enroll
-                    </button>
-                  ) : null}
-                </TableItem>
-                <TableItem className="text-right">
-                  {['admin', 'editor'].includes(authenticatedUser.role) ? (
-                    <button
-                      className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
-                      onClick={() => {
-                        setSelectedCourseId(id);
-                        setValue('name', name);
-                        setValue('description', description);
-                        setUpdateShow(true);
-                      }}
-                    >
-                      Edit
-                    </button>
-                  ) : null}
-                  {authenticatedUser.role === 'admin' ? (
-                    <button
-                      className="text-red-600 hover:text-red-900 ml-3 focus:outline-none"
-                      onClick={() => {
-                        setSelectedCourseId(id);
-                        setDeleteShow(true);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  ) : null}
-                </TableItem>
-              </tr>
-            ))}
+                <tr key={id}>
+                  <TableItem>
+                    <Link to={`/courses/${id}`}>{name}</Link>
+                  </TableItem>
+                  <TableItem>{description}</TableItem>
+                  <TableItem>
+                    {new Date(dateCreated).toLocaleDateString()}
+                  </TableItem>
+                  <TableItem>
+                    {['user'].includes(authenticatedUser.role) ? (
+                      <button
+                        className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
+                        onClick={() => {
+                          setSelectedCourseId(id);
+                          enrollCourse(authenticatedUser.id, id);
+                        }}
+                      >
+                        Enroll
+                      </button>
+                    ) : null}
+                  </TableItem>
+                  <TableItem className="text-right">
+                    {['admin', 'editor'].includes(authenticatedUser.role) ? (
+                      <button
+                        className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
+                        onClick={() => {
+                          setSelectedCourseId(id);
+                          setValue('name', name);
+                          setValue('description', description);
+                          setUpdateShow(true);
+                        }}
+                      >
+                        Edit
+                      </button>
+                    ) : null}
+                    {authenticatedUser.role === 'admin' ? (
+                      <button
+                        className="text-red-600 hover:text-red-900 ml-3 focus:outline-none"
+                        onClick={() => {
+                          setSelectedCourseId(id);
+                          setDeleteShow(true);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    ) : null}
+                  </TableItem>
+                </tr>
+              ))}
         </Table>
         {error && (
           <div className="mb4 bg-red-100 border border-red-500 text-red-600 rounded p-3">
-            <p className="text-sm font-medium">
-              {error}
-            </p>
+            <p className="text-sm font-medium">{error}</p>
           </div>
         )}
         {successEnrolled && (
           <div className="mb4 bg-green-100 border border-green-500 text-green-600 rounded p-3">
             <CheckCircle size={20} className="mr-2" />
-            <p className="text-sm font-medium">
-              {successEnrolled}
-            </p>
+            <p className="text-sm font-medium">{successEnrolled}</p>
           </div>
         )}
         {!isLoading && data.length < 1 ? (

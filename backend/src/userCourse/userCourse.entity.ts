@@ -24,4 +24,7 @@ export class UserCourse extends BaseEntity {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', nullable: true })
   dateJoined: Date;
+
+  @Column({ type: 'boolean', default: false })
+  isFavorite: boolean;
 }

@@ -8,6 +8,7 @@ import { CourseModule } from './course/course.module';
 import { StatsModule } from './stats/stats.module';
 import { UserModule } from './user/user.module';
 import { UserCourseModule } from './userCourse/userCourse.module';
+import { FavoritesModule } from './favorite/favorites.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UserCourseModule } from './userCourse/userCourse.module';
     TypeOrmModule.forRoot(),
     UserModule,
     UserCourseModule,
+    FavoritesModule,
     AuthModule,
     CourseModule,
     ContentModule,

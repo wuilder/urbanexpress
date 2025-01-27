@@ -5,5 +5,6 @@ export default interface MyCourses {
   userId: string;
   courseId: string;
   dateJoined: Date;
+  isFavorite: boolean;
   course: Course;
 }

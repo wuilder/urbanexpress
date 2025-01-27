@@ -18,6 +18,20 @@ class EnrollService {
   async getUserCourses(userId: string): Promise<MyCourse[]> {
     return (await apiService.get(`/api/usercourses/${userId}`)).data;
   }
+
+  async getUserCourseFavorite(userId: string) {
+    return await apiService.get(`/api/favorites/${userId}`);
+  }
+
+  async addFavorite(userId: string, courseId: string) {
+    return await apiService.post(`/api/favorites/${userId}`, { courseId });
+  }
+
+  async removeFavorite(userId: string, courseId: string) {
+    return await apiService.delete(`/api/favorites/${userId}`, {
+      data: { courseId },
+    });
+  }
 }
 
 export default new EnrollService();

@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query';
 
-import UpdateProfile from '../components/dashboard/UpdateProfile';
 import Layout from '../components/layout';
 import statsService from '../services/StatsService';
+import useAuth from '../hooks/useAuth';
 
 export default function Dashboard() {
   const { data, isLoading } = useQuery('stats', statsService.getStats);
+  const { authenticatedUser } = useAuth();
 
   return (
     <Layout>
@@ -14,12 +15,14 @@ export default function Dashboard() {
       <div className="mt-5 flex flex-col gap-5">
         {!isLoading ? (
           <div className="flex flex-col sm:flex-row gap-5">
-            <div className="card shadow text-white bg-blue-500 flex-1">
-              <h1 className="font-semibold sm:text-4xl text-center mb-3">
-                {data.numberOfUsers}
-              </h1>
-              <p className="text-center sm:text-lg font-semibold">Users</p>
-            </div>
+            {authenticatedUser.role === 'admin' && (
+              <div className="card shadow text-white bg-blue-500 flex-1">
+                <h1 className="font-semibold sm:text-4xl text-center mb-3">
+                  {data.numberOfUsers}
+                </h1>
+                <p className="text-center sm:text-lg font-semibold">Users</p>
+              </div>
+            )}
             <div className="card shadow text-white bg-indigo-500 flex-1">
               <h1 className="font-semibold sm:text-4xl mb-3 text-center">
                 {data.numberOfCourses}
