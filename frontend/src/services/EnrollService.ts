@@ -1,11 +1,9 @@
 import apiService from './ApiService';
 
+import MyCourse from '../models/course/myCourses';
+
 class EnrollService {
-  async enrollCourse(userId, courseId) {
-    const userCourse = {
-      userId,
-      courseId,
-    };
+  async enrollCourse(userId: string, courseId: string) {
     await apiService.post('/api/usercourses', { userId, courseId });
   }
 
@@ -15,6 +13,10 @@ class EnrollService {
       courseId,
     };
     await apiService.delete('/api/usercourses', { data: userCourse });
+  }
+
+  async getUserCourses(userId: string): Promise<MyCourse[]> {
+    return (await apiService.get(`/api/usercourses/${userId}`)).data;
   }
 }
 
