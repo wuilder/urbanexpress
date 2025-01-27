@@ -31,6 +31,11 @@ export default function Sidebar({ className }: SidebarProps) {
         <SidebarItem to="/courses">
           <BookOpen /> Courses
         </SidebarItem>
+        {['user'].includes(authenticatedUser.role) ? (
+          <SidebarItem to="/mycourses">
+            <BookOpen /> My Courses
+          </SidebarItem>
+        ) : null}
         {authenticatedUser.role === 'admin' ? (
           <SidebarItem to="/users">
             <Users /> Users
