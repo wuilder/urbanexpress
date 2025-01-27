@@ -13,12 +13,12 @@ export default function MyCourses() {
   const [description, setDescription] = useState('');
 
   const { authenticatedUser } = useAuth();
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, refetch } = useQuery(
     ['userCourses', authenticatedUser?.id],
     () =>
       enrollService.getUserCourses(authenticatedUser?.id),
     {
-      refetchInterval: 1000,
+      refetchInterval: false,
     },
   );
 
@@ -26,9 +26,6 @@ export default function MyCourses() {
     formState: { isSubmitting },
   } = useForm<CreateCourseRequest>();
 
-
-  console.log(data)
-  console.log("=".repeat(50))
 
   return (
     <Layout>
@@ -53,7 +50,7 @@ export default function MyCourses() {
         </div>
       </div>
 
-      <MyCoursesTable data={data} isLoading={isLoading} />
+      <MyCoursesTable data={data} isLoading={isLoading} refetch={refetch} />
     </Layout>
   );
 }

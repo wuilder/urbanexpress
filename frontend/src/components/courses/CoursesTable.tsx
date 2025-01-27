@@ -56,13 +56,13 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
     }
   };
 
-  const enrollCourse = async (userId, courseId) => {
+  const enrollCourse = async (userId: string) => {
     try {
-      await enrollService.enrollCourse(userId, courseId);
+      await enrollService.enrollCourse(userId, selectedCourseId);
       reset();
       setError(null);
     } catch (error) {
-      setError(error.response);
+      setError(error.response.data.message);
     }
   };
 
@@ -73,55 +73,55 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
           {isLoading
             ? null
             : data.map(({ id, name, description, dateCreated }) => (
-                <tr key={id}>
-                  <TableItem>
-                    <Link to={`/courses/${id}`}>{name}</Link>
-                  </TableItem>
-                  <TableItem>{description}</TableItem>
-                  <TableItem>
-                    {new Date(dateCreated).toLocaleDateString()}
-                  </TableItem>
-                  <TableItem>
-                    {['user'].includes(authenticatedUser.role) ? (
-                      <button
-                        className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
-                        onClick={() => {
-                          setSelectedCourseId(id);
-                          enrollCourse(authenticatedUser.id, id);
-                        }}
-                      >
-                        Inscribirse
-                      </button>
-                    ) : null}
-                  </TableItem>
-                  <TableItem className="text-right">
-                    {['admin', 'editor'].includes(authenticatedUser.role) ? (
-                      <button
-                        className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
-                        onClick={() => {
-                          setSelectedCourseId(id);
-                          setValue('name', name);
-                          setValue('description', description);
-                          setUpdateShow(true);
-                        }}
-                      >
-                        Edit
-                      </button>
-                    ) : null}
-                    {authenticatedUser.role === 'admin' ? (
-                      <button
-                        className="text-red-600 hover:text-red-900 ml-3 focus:outline-none"
-                        onClick={() => {
-                          setSelectedCourseId(id);
-                          setDeleteShow(true);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    ) : null}
-                  </TableItem>
-                </tr>
-              ))}
+              <tr key={id}>
+                <TableItem>
+                  <Link to={`/courses/${id}`}>{name}</Link>
+                </TableItem>
+                <TableItem>{description}</TableItem>
+                <TableItem>
+                  {new Date(dateCreated).toLocaleDateString()}
+                </TableItem>
+                <TableItem>
+                  {['user'].includes(authenticatedUser.role) ? (
+                    <button
+                      className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
+                      onClick={() => {
+                        setSelectedCourseId(id);
+                        enrollCourse(authenticatedUser.id, id);
+                      }}
+                    >
+                      Enroll
+                    </button>
+                  ) : null}
+                </TableItem>
+                <TableItem className="text-right">
+                  {['admin', 'editor'].includes(authenticatedUser.role) ? (
+                    <button
+                      className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
+                      onClick={() => {
+                        setSelectedCourseId(id);
+                        setValue('name', name);
+                        setValue('description', description);
+                        setUpdateShow(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  ) : null}
+                  {authenticatedUser.role === 'admin' ? (
+                    <button
+                      className="text-red-600 hover:text-red-900 ml-3 focus:outline-none"
+                      onClick={() => {
+                        setSelectedCourseId(id);
+                        setDeleteShow(true);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  ) : null}
+                </TableItem>
+              </tr>
+            ))}
         </Table>
         {!isLoading && data.length < 1 ? (
           <div className="text-center my-5 text-gray-500">

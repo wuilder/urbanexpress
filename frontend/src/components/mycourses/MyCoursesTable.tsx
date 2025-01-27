@@ -12,6 +12,7 @@ import TableItem from '../shared/TableItem';
 interface UsersCoursesTableProps {
   data: MyCourse[];
   isLoading: boolean;
+  refetch: () => void;
 }
 
 export default function MyCoursesTable({ data, isLoading }: UsersCoursesTableProps) {
@@ -22,12 +23,11 @@ export default function MyCoursesTable({ data, isLoading }: UsersCoursesTablePro
   const {
     formState: { isSubmitting },
     reset,
-    setValue,
   } = useForm<UpdateCourseRequest>();
 
-  const unEnrollCourse = async (userId: string, courseId: string) => {
+  const unEnrollCourse = async (userId: string) => {
     try {
-      await enrollService.unenrollCourse(userId, courseId);
+      await enrollService.unenrollCourse(userId, selectedCourseId);
       reset();
       setError(null);
     } catch (error) {
