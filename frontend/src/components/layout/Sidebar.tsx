@@ -1,4 +1,4 @@
-import { BookOpen, Home, LogOut, Users } from 'react-feather';
+import { BookOpen, Edit, Home, LogOut, Users } from 'react-feather';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -27,6 +27,9 @@ export default function Sidebar({ className }: SidebarProps) {
       <nav className="mt-5 flex flex-col gap-3 flex-grow">
         <SidebarItem to="/">
           <Home /> Dashboard
+        </SidebarItem>
+        <SidebarItem to="profile-edit">
+          <Edit /> Profile Edit
         </SidebarItem>
         <SidebarItem to="/courses">
           <BookOpen /> Courses
