@@ -16,6 +16,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { JwtGuard } from '../auth/guards/jwt.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { UserGuard } from '../auth/guards/user.guard';
 import { EnrollUserCourseDto, UnenrollUserCourseDto } from './userCourse.dto';
 import { UserCourse } from './userCourse.entity';
 import { UserCourseService } from './userCourse.service';
@@ -28,12 +29,9 @@ import { UserCourseService } from './userCourse.service';
 export class UserCourseController {
     constructor(private readonly userCourseService: UserCourseService) { }
 
-    @Get()
-    async getUserCourses(@Param('userId') userId: string) {
+    @Get('/:id')
+    async getUserCourses(@Param('id') userId: string) {
         const response = await this.userCourseService.findAllUserCourses(userId);
-        console.log("=".repeat(50))
-        console.log(response)
-        console.log("=".repeat(50))
 
         if (!response || response.length === 0) {
             throw new NotFoundException('No courses found for this user');

@@ -42,7 +42,6 @@ export class UserCourseService {
   async delete(unenrollUserCourseDto: UnenrollUserCourseDto): Promise<any> {
     const { userId, courseId } = unenrollUserCourseDto;
 
-    // Intentar eliminar el registro de inscripción
     const result = await this.userCourseRepository.delete({
       user: { id: userId },
       course: { id: courseId },
