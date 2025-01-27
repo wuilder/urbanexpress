@@ -1,9 +1,9 @@
 FROM node:16-alpine AS builder
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn install --location=global && yarn build
+RUN yarn install --location=global
 COPY . .
-#RUN yarn build
+RUN yarn build && ls -la ./dist
 
 
 FROM node:16-alpine AS runtime
