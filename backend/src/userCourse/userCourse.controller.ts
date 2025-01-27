@@ -32,10 +32,6 @@ export class UserCourseController {
     @Get('/:id')
     async getUserCourses(@Param('id') userId: string) {
         const response = await this.userCourseService.findAllUserCourses(userId);
-
-        if (!response || response.length === 0) {
-            throw new NotFoundException('No courses found for this user');
-        }
         return response
     }
 

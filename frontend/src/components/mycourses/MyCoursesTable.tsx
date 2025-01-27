@@ -31,7 +31,7 @@ export default function MyCoursesTable({
         );
         setFavorites(response.data.map((fav: any) => fav.courseId));
       } catch (error) {
-        console.error('Error fetching favorites:', error);
+        setError(`Error fetching favorites: ${error}`);
       }
     };
 
@@ -59,7 +59,7 @@ export default function MyCoursesTable({
         setFavorites([...favorites, courseId]);
       }
     } catch (error) {
-      setError(`Error toggling favorite: ${error}`,);
+      setError(`Error toggling favorite: ${error}`);
     }
   };
 
@@ -105,12 +105,12 @@ export default function MyCoursesTable({
               </tr>
             ))}
         </Table>
-        {error && (
+        {!isLoading && data.length < 1 && error && (
           <div className="mb4 bg-red-100 border border-red-500 text-red-600 rounded p-3">
             <p className="text-sm font-medium">{error}</p>
           </div>
         )}
-        {successUnEnrolled && (
+        {!isLoading && data.length < 1 && successUnEnrolled && (
           <div className="mb4 bg-green-100 border border-green-500 text-green-600 rounded p-3">
             <CheckCircle size={20} className="mr-2" />
             <p className="text-sm font-medium">{successUnEnrolled}</p>
@@ -118,7 +118,7 @@ export default function MyCoursesTable({
         )}
         {!isLoading && data.length < 1 ? (
           <div className="text-center my-5 text-gray-500">
-            <h1>Empty</h1>
+            <h1>No courses enrolled</h1>
           </div>
         ) : null}
       </div>

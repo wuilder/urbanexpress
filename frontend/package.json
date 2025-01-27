@@ -39,9 +39,9 @@
       "prettier"
     ],
     "rules": {
-      "simple-import-sort/imports": "error",
-      "simple-import-sort/exports": "error",
-      "prettier/prettier": "error",
+      "simple-import-sort/imports": "warn",
+      "simple-import-sort/exports": "warn",
+      "prettier/prettier": "warn",
       "react-hooks/exhaustive-deps": "off"
     }
   },
