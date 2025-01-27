@@ -55,7 +55,7 @@ export default function MyCoursesTable({ data, isLoading }: UsersCoursesTablePro
                       className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
                       onClick={() => {
                         setSelectedCourseId(id);
-                        unEnrollCourse(authenticatedUser.id, course.id);
+                        unEnrollCourse(authenticatedUser.id);
                       }}
                     >
                       Unenroll

@@ -87,7 +87,7 @@ export default function CoursesTable({ data, isLoading }: UsersTableProps) {
                       className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
                       onClick={() => {
                         setSelectedCourseId(id);
-                        enrollCourse(authenticatedUser.id, id);
+                        enrollCourse(authenticatedUser.id);
                       }}
                     >
                       Enroll
